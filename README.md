@@ -2,8 +2,9 @@
 # Breast Cancer classification using Azure ML
 
 Predict whether the cancer is benign or malignant using Azure Machine learning service. We  compare the results of Azure automated machine learning  and Hyperparameter tuning to solve this classification problem. Then we deploy the model on an Azure Container Serivce(ACI) as a respoint endpoint and test the endpoing by consuming it using an HTTP post request and get a prediction.
-
-<img src="capstone-diagram_adapt.png" width="460" heigth = "400"  style="float: left; margin-right: 10px;" />
+<p align='center'>
+    <img src="capstone-diagram_adapt.png" width="460" heigth = "400"  style="float: left; margin-right: 10px;" />
+</p>
 
 ## Dataset
 
@@ -57,7 +58,9 @@ automl_config = AutoMLConfig(task='classification',
 The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **0.99675** and **0.9753** accuracy.
 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+<p align='center'>
 <img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</p>
 
 ## Hyperparameter Tuning
 *TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search.
@@ -98,7 +101,9 @@ hyperdrive_config = HyperDriveConfig(run_config= estimator,
 
 ## Model Deployment
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
-<img src="screens\model_enpoint1.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+<p align='center'>
+    <img src="screens\model_enpoint1.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</P>
 
 ## Screen Recording
 *TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:

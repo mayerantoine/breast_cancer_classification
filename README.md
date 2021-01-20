@@ -1,7 +1,6 @@
 
 # Breast Cancer classification using Azure ML
 
-*TODO:* Write a short introduction to your project.
 Predict whether the cancer is benign or malignant using Azure Machine learning service. We  compare the results of Azure automated machine learning  and Hyperparameter tuning to solve this classification problem. Then we deploy the model on an Azure Container Serivce(ACI) as a respoint endpoint and test the endpoing by consuming it using an HTTP post request and get a prediction.
 
 <img src="capstone-diagram_adapt.png" width="460" heigth = "400"  style="float: left; margin-right: 10px;" />
@@ -9,19 +8,17 @@ Predict whether the cancer is benign or malignant using Azure Machine learning s
 ## Dataset
 
 ### Overview
-*TODO*: Explain about the data you are using and where you got it from.
+
 We used the Breast Cancer Wisconsin (Diagnostic) Data Set.Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image.
 Dataset was download from Kaggle : (https://www.kaggle.com/uciml/breast-cancer-wisconsin-data)
 Also can be found on UCI Machine Learning Repository: (https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29)
 
 ### Task
-*TODO*: Explain the task you are going to be solving with this dataset and the features you will be using for it.
 We approach the project as a classification task. We wanted to classiy the cancer as cancer is benign or malignant based on the provided data.
 The target column is Diagnosis (M = malignant, B = benign).
 
 
 ### Access
-*TODO*: Explain how you are accessing the data in your workspace.
 To access the data in my workspace i had to import the the csv file as a dataframe, do some cleaning, save the the as a csv before uploading in the datastore for it to be accessible via as a Tabular Dataset.
 
 ```
@@ -57,12 +54,42 @@ automl_config = AutoMLConfig(task='classification',
 
 ### Results
 *TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
+The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **0.99675** and **0.9753** accuracy.
 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+<img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 
 ## Hyperparameter Tuning
-*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search
+*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search.
+For this experiment we used a Random Forest  ,which we fine tuned using Grid Sampling for the follwing hyperparameter : max_dept, max_features,min_sample_leaf,n_estimators.
 
+```
+ps = GridParameterSampling({
+    "--max_depth":choice(3,6,12,20),
+    "--max_features":choice('auto','sqrt','log2'),
+    "--min_samples_leaf":choice(1,3,5),
+    "--n_estimator":choice(20,40,100,1000)
+})
+
+
+# Specify a Policy
+policy = BanditPolicy(slack_factor = 0.1, evaluation_interval=1, delay_evaluation=5)
+
+estimator = ScriptRunConfig(source_directory='./scripts',
+                      script='train.py',
+                      compute_target=gpu_cluster,
+                      environment=keras_env)
+
+# Create a HyperDriveConfig using the estimator, hyperparameter sampler, and policy.
+hyperdrive_config = HyperDriveConfig(run_config= estimator,
+                             hyperparameter_sampling=ps,
+                             policy=policy,
+                             primary_metric_name="accuracy",
+                             primary_metric_goal=PrimaryMetricGoal.MAXIMIZE,
+                             max_total_runs=50,
+                             max_concurrent_runs=4,
+                             max_duration_minutes= 20)
+```
 
 ### Results
 *TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
@@ -71,6 +98,7 @@ automl_config = AutoMLConfig(task='classification',
 
 ## Model Deployment
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
+<img src="screens\model_enpoint1.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 
 ## Screen Recording
 *TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:

@@ -95,21 +95,127 @@ hyperdrive_config = HyperDriveConfig(run_config= estimator,
 ```
 
 ### Results
-*TODO*: What are the results you got with your model? What were the parameters of the model? How could you have improved it?
+With our Hyperparemeter configuration settings  and search space we obtained **0.965** accuracy with the Random Forest with a `max_depth` of 20, 20 `estimators`, `max_features` auto and `min_sample_leaf` of 1. We could have improved that results by increasing the `max_duration_minutes` which would allow Hyperdrive to explore 
+more space in the Grid.
 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+<p align='center'>
+    <img src="screens\running_hype.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</P>
 
 ## Model Deployment
 *TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
+Based on those results we have deployed and test the best automl. To do so :
+
+1. Get the best model from the training run
+    ```
+    from azureml.train.automl.run import AutoMLRun
+    run_id = 'AutoML_0bcb2574-d48f-4b5c-9afa-e7dae19237fc_18'
+    automl_training_run = AutoMLRun(exp,run_id)
+    automl_training_run
+    ```
+2. Regsiter the model
+   
+   ```
+   description = 'Breast Cancer Classification'
+   model = automl_run.register_model(model_name = model_name,description= description,tags =None)
+
+   ```
+3. Download the score python file from azure ml
+4. Create an inference configuration
+5. Create an ACI deployment configuration
+6. Deploy the model
+    
+    ```
+    from azureml.core.environment import Environment 
+    from azureml.core.webservice import AciWebservice,Webservice
+    from azureml.core.model import Model,InferenceConfig
+
+    aci_service_name = 'breast-cancer-classifier'
+    inference_config = InferenceConfig(entry_script = script_filename, environment = best_run.get_environment())
+
+    aciconfig = AciWebservice.deploy_configuration(cpu_cores=1, 
+                                                    memory_gb=1, 
+                                                    tags={'type':"breast-cancer-classification"}, 
+                                                description='Udacity project Breast cancer classification')
+
+    aciservice = Model.deploy(workspace=ws, 
+                        name=aci_service_name, 
+                        models=[model], 
+                        inference_config=inference_config, 
+                        deployment_config=aciconfig)
+
+    aciservice.wait_for_deployment(show_output=True)
+    ```
+
+
+To consume the model
+1. We copied the rest endpoint
+2. Create a sample JSON payload
+   
+    ```
+        test_sample = {"data" : [{"radius_mean":17.99,
+                     "texture_mean":10.38,
+                     "perimeter_mean":122.8,
+                    "area_mean":1001.0,
+                     "smoothness_mean":0.1184,
+                     "compactness_mean":0.2776,
+                     "concavity_mean":0.3001,
+                     "concave points_mean":0.1471,
+                     "symmetry_mean":0.2419,
+                     "fractal_dimension_mean":0.07871,
+                     "radius_se":1.095,
+                     "texture_se":0.9053,
+                     "perimeter_se":8.589,
+                     "area_se":153.4,
+                     "smoothness_se":0.006399,
+                     "compactness_se":0.04904,
+                     "concavity_se":0.05373,
+                     "concave points_se":0.01587,
+                     "symmetry_se":0.03003,
+                     "fractal_dimension_se":0.006193,
+                     "radius_worst":25.38,
+                     "texture_worst":17.33,
+                     "perimeter_worst":184.6,
+                     "area_worst":2019.0,
+                     "smoothness_worst":0.1622,
+                     "compactness_worst":0.6656,
+                     "concavity_worst":0.7119,
+                     "concave points_worst":0.2654,
+                     "symmetry_worst":0.4601,
+                     "fractal_dimension_worst":0.1189}]}
+    ```
+3. Post the payload to the endpoint using a HTTP Post 
+   
+    ```
+    import requests
+    import json
+
+    scoring_uri = 'http://85c4a414-e90c-4838-84ba-d7aa5295a446.eastus.azurecontainer.io/score'
+
+    # Convert to JSON string
+    input_data = json.dumps(test_sample)
+    # Set the content type
+    headers = {'Content-Type': 'application/json'}
+
+    # Make the request and display the response
+    resp = requests.post(scoring_uri, input_data, headers=headers)
+    print(resp.json())
+    ```
+
+See below the registered model and endpoint screen
+<p align='center'>
+    <img src="screens\regsiterd_model_id.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</P>
+
 <p align='center'>
     <img src="screens\model_enpoint1.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>
 
 ## Screen Recording
-*TODO* Provide a link to a screen recording of the project in action. Remember that the screencast should demonstrate:
-- A working model
-- Demo of the deployed  model
-- Demo of a sample request sent to the endpoint and its response
+[Demo Video](https://youtu.be/jWZosambXSs)
 
-## Standout Suggestions
-*TODO (Optional):* This is where you can provide information about any standout suggestions that you have attempted.
+## Future work
+
+Next steps would be to investigate the Voting Ensemble and Hyperparameters to see how we could improve performace.
+Also we could extend the project into more MLOps by adding source version control to the code and create a DevOps pipeline to kick our ML pipeline when there a valid and tested code commit.

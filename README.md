@@ -103,7 +103,6 @@ hyperdrive_config = HyperDriveConfig(run_config= estimator,
 With our Hyperparemeter configuration settings  and search space we obtained **0.965** accuracy with the Random Forest with a `max_depth` of 20, 20 `estimators`, `max_features` auto and `min_sample_leaf` of 1. We could have improved that results by increasing the `max_duration_minutes` which would allow Hyperdrive to explore 
 more space in the Grid.Also doing feature engineering in this case could have improved the results.
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
 <p align='center'>
     <img src="screens\running_hype.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>

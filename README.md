@@ -28,8 +28,15 @@ ds = Dataset.Tabular.from_delimited_files(path=ds_tr.path('cancerdata2/cancer_tr
 ```
 
 ## Automated ML
-*TODO*: Give an overview of the `automl` settings and configuration you used for this experiment
-For the AutoML experiment i have the following setting.
+For the AutoML experiment we have the following  key settings. Most of them were set to limit the compute time and cost.
+
+* Limit the number of iterations to 20
+* Time limit fo experimentation is 20 minutes
+* iteration should time ou in 10 minutes
+* We enable early stopping 
+* Use a 5 fold cross validation
+* Limit the number of current iteration to 3
+* We enable featurization as we wanted AutoML to also evaludate different feature engineering of our numerical features
 
 ```
 automl_settings = {
@@ -54,17 +61,15 @@ automl_config = AutoMLConfig(task='classification',
 ```
 
 ### Results
-*TODO*: What are the results you got with your automated ML model? What were the parameters of the model? How could you have improved it?
 The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **0.99675** and **0.9753** accuracy.
 
-*TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
+
 <p align='center'>
 <img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
 
 ## Hyperparameter Tuning
-*TODO*: What kind of model did you choose for this experiment and why? Give an overview of the types of parameters and their ranges used for the hyperparameter search.
-For this experiment we used a Random Forest  ,which we fine tuned using Grid Sampling for the follwing hyperparameter : max_dept, max_features,min_sample_leaf,n_estimators.
+For this experiment we used a Random Forest  ,which we fine tuned using Grid Sampling for the following hyperparameter : max_dept, max_features,min_sample_leaf,n_estimators.
 
 ```
 ps = GridParameterSampling({
@@ -102,9 +107,11 @@ more space in the Grid.
 <p align='center'>
     <img src="screens\running_hype.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>
+<p align='center'>
+    <img src="screens\best_hyperdrive.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</P>
 
 ## Model Deployment
-*TODO*: Give an overview of the deployed model and instructions on how to query the endpoint with a sample input.
 Based on those results we have deployed and test the best automl. To do so :
 
 1. Get the best model from the training run
@@ -150,7 +157,7 @@ Based on those results we have deployed and test the best automl. To do so :
 
 
 To consume the model
-1. We copied the rest endpoint
+1. We copy the rest endpoint
 2. Create a sample JSON payload
    
     ```
@@ -217,5 +224,5 @@ See below the registered model and endpoint screen
 
 ## Future work
 
-Next steps would be to investigate the Voting Ensemble and Hyperparameters to see how we could improve performace.
-Also we could extend the project into more MLOps by adding source version control to the code and create a DevOps pipeline to kick our ML pipeline when there a valid and tested code commit.
+Next steps would be to investigate the Voting Ensemble and Hyperparameters to see how we could improve performance.
+Also we could extend the project into more MLOps by adding source version control to the code and create a DevOps pipeline to kick our ML pipeline for training,testing and deployment.

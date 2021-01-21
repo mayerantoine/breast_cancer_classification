@@ -11,11 +11,11 @@ Predict whether the cancer is benign or malignant using Azure Machine learning s
 ### Overview
 
 We used the Breast Cancer Wisconsin (Diagnostic) Data Set.Features are computed from a digitized image of a fine needle aspirate (FNA) of a breast mass. They describe characteristics of the cell nuclei present in the image.
-Dataset was download from Kaggle : (https://www.kaggle.com/uciml/breast-cancer-wisconsin-data)
-Also can be found on UCI Machine Learning Repository: (https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29)
+Dataset was download from Kaggle : [breast-cancer-wisconsin-data](https://www.kaggle.com/uciml/breast-cancer-wisconsin-data)
+Also can be found on [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29)
 
 ### Task
-We approach the project as a classification task. We wanted to classiy the cancer as cancer is benign or malignant based on the provided data.
+We approach the project as a classification task. We wanted to classiy the cancer as benign or malignant based on the provided data.
 The target column is Diagnosis (M = malignant, B = benign).
 
 
@@ -35,7 +35,7 @@ For the AutoML experiment we have the following  key settings. Most of them were
 * iteration should time ou in 10 minutes
 * We enable early stopping 
 * Use a 5 fold cross validation
-* Limit the number of current iteration to 3
+* Limit the number of concurrent iteration to 3
 * We enable featurization as we wanted AutoML to also evaludate different feature engineering of our numerical features
 
 ```
@@ -101,7 +101,7 @@ hyperdrive_config = HyperDriveConfig(run_config= estimator,
 
 ### Results
 With our Hyperparemeter configuration settings  and search space we obtained **0.965** accuracy with the Random Forest with a `max_depth` of 20, 20 `estimators`, `max_features` auto and `min_sample_leaf` of 1. We could have improved that results by increasing the `max_duration_minutes` which would allow Hyperdrive to explore 
-more space in the Grid.
+more space in the Grid.Also doing feature engineering in this case could have improved the results.
 
 *TODO* Remeber to provide screenshots of the `RunDetails` widget as well as a screenshot of the best model trained with it's parameters.
 <p align='center'>
@@ -220,7 +220,7 @@ See below the registered model and endpoint screen
 </P>
 
 ## Screen Recording
-[Demo Video](https://youtu.be/jWZosambXSs)
+[Demo Video](https://youtu.be/NlXgNRcvn80)
 
 ## Future work
 

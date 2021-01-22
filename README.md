@@ -63,9 +63,22 @@ automl_config = AutoMLConfig(task='classification',
 ### Results
 The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **0.99675** and **0.9753** accuracy.
 
+<p align='center'>
+    <img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</p>
+<p align='center'>
+    <img src="screens\automl_bestmodel2.JPG width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</p>
+The AutoML Run details, the best model is the `VotingEnsemble` , followed by `stochastic gradient descent (SGD)` , `StackEnsemble` and `LightGBM`. In practice the gap 
+between the performance of top 5 models is very negligible (expert for ML competition).
 
 <p align='center'>
-<img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+    <img src="screens\automl_rundetails.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+</p>
+
+The best AutoML model parameters.
+<p align='center'>
+    <img src="screens\automl_params.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
 
 ## Hyperparameter Tuning
@@ -101,7 +114,7 @@ hyperdrive_config = HyperDriveConfig(run_config= estimator,
 
 ### Results
 With our Hyperparemeter configuration settings  and search space we obtained **0.965** accuracy with the Random Forest with a `max_depth` of 20, 20 `estimators`, `max_features` auto and `min_sample_leaf` of 1. We could have improved that results by increasing the `max_duration_minutes` which would allow Hyperdrive to explore 
-more space in the Grid.Also doing feature engineering in this case could have improved the results.
+more space in the Grid. Also doing feature engineering in this case could have improved the results.
 
 <p align='center'>
     <img src="screens\running_hype.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
@@ -109,6 +122,7 @@ more space in the Grid.Also doing feature engineering in this case could have im
 <p align='center'>
     <img src="screens\best_hyperdrive.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>
+
 
 ## Model Deployment
 Based on those results we have deployed and test the best automl. To do so :

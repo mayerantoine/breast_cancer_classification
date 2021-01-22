@@ -66,9 +66,12 @@ The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **
 <p align='center'>
     <img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
+
+Best  automl model(second run to take the print screen,  score lower but VotingEnsemble still best model)
 <p align='center'>
-    <img src="screens\automl_bestmodel2.JPG width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+    <img src="screens\automl_bestmodel2.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
+
 The AutoML Run details, the best model is the `VotingEnsemble` , followed by `stochastic gradient descent (SGD)` , `StackEnsemble` and `LightGBM`. In practice the gap 
 between the performance of top 5 models is very negligible (expert for ML competition).
 
@@ -119,6 +122,8 @@ more space in the Grid. Also doing feature engineering in this case could have i
 <p align='center'>
     <img src="screens\running_hype.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>
+
+Best Hyperdrive model
 <p align='center'>
     <img src="screens\best_hyperdrive.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>

@@ -61,31 +61,25 @@ automl_config = AutoMLConfig(task='classification',
 ```
 
 ### Results
-The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **0.99675** and **0.9753** accuracy.
-
-<p align='center'>
-    <img src="screens\best_automl_model.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
-</p>
-
-Best  automl model(second run to take the print screen,  score lower but VotingEnsemble still best model)
+The best model from Auto ML is a VotingEnsemble with an AUC Weighted score of **0.9950**.
 <p align='center'>
     <img src="screens\automl_bestmodel2.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
 
-The AutoML Run details, the best model is the `VotingEnsemble` , followed by `stochastic gradient descent (SGD)` , `StackEnsemble` and `LightGBM`. In practice the gap 
+The AutoML Run details, the best model is the `VotingEnsemble` , followed by  `StackEnsemble` and `LightGBM`. In practice the gap 
 between the performance of top 5 models is very negligible (expert for ML competition).
 
 <p align='center'>
-    <img src="screens\automl_rundetails.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+    <img src="screens\automl_rundetails2.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
 
 The best AutoML model parameters.
 <p align='center'>
-    <img src="screens\automl_params.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+    <img src="screens\automl_params2.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </p>
 
 ## Hyperparameter Tuning
-For this experiment we used a Random Forest  ,which we fine tuned using Grid Sampling for the following hyperparameter : max_dept, max_features,min_sample_leaf,n_estimators.
+For this experiment we used a Random Forest  ,which we fine tuned using Grid Sampling for the following hyperparameter : max_depth, max_features,min_sample_leaf,n_estimators.
 
 ```
 ps = GridParameterSampling({
@@ -116,16 +110,16 @@ hyperdrive_config = HyperDriveConfig(run_config= estimator,
 ```
 
 ### Results
-With our Hyperparemeter configuration settings  and search space we obtained **0.965** accuracy with the Random Forest with a `max_depth` of 20, 20 `estimators`, `max_features` auto and `min_sample_leaf` of 1. We could have improved that results by increasing the `max_duration_minutes` which would allow Hyperdrive to explore 
+With our Hyperparemeter configuration settings  and search space we obtained **0.965** accuracy with the Random Forest with a `max_depth` of 12, 20 `estimators`, `max_features` auto and `min_sample_leaf` of 1. We could have improved that results by increasing the `max_duration_minutes` which would allow Hyperdrive to explore 
 more space in the Grid. Also doing feature engineering in this case could have improved the results.
 
 <p align='center'>
-    <img src="screens\running_hype.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+    <img src="screens\running_hype2.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>
 
 Best Hyperdrive model
 <p align='center'>
-    <img src="screens\best_hyperdrive.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
+    <img src="screens\best_hyperdrive2.JPG" width="460" heigth = "400"  style="float: center; margin-right: 20px;" />
 </P>
 
 
